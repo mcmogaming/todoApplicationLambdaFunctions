@@ -16,10 +16,12 @@ def lambda_handler(event, context):
             response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
             tabledata.extend(response['Items'])
         response = tabledata
+        
     elif http_method == "DELETE":
         response = table.table.delete_item(Key={
             'id':data['id']
         })
+        response = response['ResponseMetadata']['HTTPStatusCode']
     elif http_method == "PUT":
         response = table.put_item(Item={'id':data['id'],'message':data['message']})
         
