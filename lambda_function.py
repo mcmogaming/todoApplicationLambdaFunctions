@@ -1,5 +1,7 @@
 import json
 import boto3
+import sys
+sys.path.insert(0, 'opt/messageLibrary.py')
 from messageLibrary import replace_letters
 
 def lambda_handler(event, context):
