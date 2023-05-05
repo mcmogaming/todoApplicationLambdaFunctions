@@ -11,7 +11,11 @@ def lambda_handler(event, context):
     
     if http_method == "GET":
         response = table.scan()
-        response = response['Items']
+        tabledata = response['Items']
+        while 'LastEvaluatedKey' in response:
+            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            tabledata.extend(response['Items'])
+        response = tabledata
     elif http_method == "DELETE":
         response = table.table.delete_item(Key={
             'id':data['id']
