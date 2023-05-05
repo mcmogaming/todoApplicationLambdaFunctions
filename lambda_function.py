@@ -1,5 +1,6 @@
 import json
 import boto3
+from messageLibrary import replace_letters
 
 def lambda_handler(event, context):
     
@@ -24,7 +25,7 @@ def lambda_handler(event, context):
         })
     #Inserts an item into the todo Table.
     elif http_method == "PUT":
-        response = table.put_item(Item={'id':data['id'],'message':data['message']})
+        response = table.put_item(Item={'id':data['id'],'message':replace_letters(data['message'])})
         
     return {
         'statusCode': 200,
