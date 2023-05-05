@@ -7,9 +7,9 @@ def lambda_handler(event, context):
     table = dynamodb.Table('todoTable')
     
     response = table.put_item(
-        Item={'sample':'test'})
+        Item={'id':'123','sample':'test'})
             
     return {
         'statusCode': 200,
-        'body': json.dumps('This message has been modified!')
+        'body': json.dumps(response)
     }
