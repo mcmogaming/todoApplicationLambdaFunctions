@@ -20,6 +20,6 @@ def lambda_handler(event, context):
             
     return {
         'statusCode': 200,
-        'body': event,
-        'zzzzz': http_method
+        'body': {'event':event,
+        'my_data': http_method}
     }
