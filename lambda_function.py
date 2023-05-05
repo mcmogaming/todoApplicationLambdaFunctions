@@ -7,19 +7,22 @@ def lambda_handler(event, context):
     table = dynamodb.Table('todoTable')
     
     http_method = event['requestContext']['http']['method']
+    data = json.loads(event['body'])
     
-    #Add an item to db
+    if http_method == "GET":
+        response = table.scan()
+        tabledata = response['Items']
+    elif http_method == "DELETE":
+        response = table.table.delete_item(Key={
+            'id':data['id']
+        })
+    elif http_method == "PUT":
+        response = table.put_item(Item={'id':data['id'],'message':data['message']})
+        
     
-    #Delete an item from db
-    
-    #List all items from db
-    
-    
-    response = table.put_item(
-        Item={'id':'123','sample':'test'})
             
     return {
         'statusCode': 200,
         'body': {'event':event,
-        'my_data': http_method}
+        'my_data': response}
     }
