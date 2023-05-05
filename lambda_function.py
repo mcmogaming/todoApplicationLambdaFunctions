@@ -9,6 +9,7 @@ def lambda_handler(event, context):
     http_method = event['requestContext']['http']['method']
     data = json.loads(event['body'])
     
+    #Gets a list of all items in the todo Table
     if http_method == "POST":
         response = table.scan()
         tabledata = response['Items']
@@ -16,18 +17,18 @@ def lambda_handler(event, context):
             response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
             tabledata.extend(response['Items'])
         response = tabledata
-        
+    #Deletes an item from the todo Table
     elif http_method == "DELETE":
         response = table.delete_item(Key={
             'id':data['id']
         })
+    #Inserts an item into the todo Table.
     elif http_method == "PUT":
         response = table.put_item(Item={'id':data['id'],'message':data['message']})
         
-    
-            
     return {
         'statusCode': 200,
         'body': {'event':event,
+        'Access-Control-Allow-Origin': '*',
         'my_data': response}
     }
