@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     http_method = event['requestContext']['http']['method']
     data = json.loads(event['body'])
     
-    if http_method == "GET":
+    if http_method == "POST":
         response = table.scan()
         tabledata = response['Items']
         while 'LastEvaluatedKey' in response:
