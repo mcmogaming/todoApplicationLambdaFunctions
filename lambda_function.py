@@ -12,7 +12,7 @@ def lambda_handler(event, context):
     http_method = event['requestContext']['http']['method']
     data = json.loads(event['body'])
     
-    #Gets a list of all items in the todo Table
+    #Gets a list of all items in the todo Table 
     if http_method == "POST":
         response = table.scan()
         tabledata = response['Items']
